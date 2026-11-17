@@ -1,0 +1,5 @@
+interface:
+  display_name: "MedDB 本地医学数据库"
+  short_description: "维护本地无MCP医学数据库的只读CLI、字段目录与查询模板"
+  default_prompt: "$meddb 维护本地 meddb CLI、catalog 或已验证的只读查询模板；不要执行真实医学数据查询。"
+

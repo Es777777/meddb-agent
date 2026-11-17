@@ -1,0 +1,67 @@
+{
+  "database": {
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dbname": "med_research",
+    "user": "meddb_reader",
+    "connect_timeout_seconds": 5,
+    "statement_timeout_ms": 30000,
+    "lock_timeout_ms": 5000,
+    "application_name": "meddb-cli"
+  },
+  "security": {
+    "allowed_schemas": [
+      "seer8",
+      "seer12",
+      "seer17",
+      "brfss",
+      "nhanes"
+    ],
+    "metadata_only_schemas": [
+      "nhanes_raw"
+    ],
+    "blocked_table_patterns": [
+      "^raw($|_)",
+      "(^|_)raw($|_)"
+    ],
+    "aggregate_max_rows": 1000,
+    "detail_max_rows": 100,
+    "codex_aggregate_max_rows": 200,
+    "codex_max_output_bytes": 1048576,
+    "catalog_max_rows": 200,
+    "max_plan_total_cost": 5000000,
+    "require_qualified_tables": true,
+    "require_aggregate_by_default": true,
+    "block_select_star": true,
+    "blocked_functions": [
+      "dblink",
+      "dblink_exec",
+      "lo_export",
+      "lo_import",
+      "nextval",
+      "pg_advisory_lock",
+      "pg_advisory_lock_shared",
+      "pg_cancel_backend",
+      "pg_ls_dir",
+      "pg_read_binary_file",
+      "pg_read_file",
+      "pg_reload_conf",
+      "pg_rotate_logfile",
+      "pg_stat_file",
+      "pg_terminate_backend",
+      "set_config",
+      "setval"
+    ]
+  },
+  "paths": {
+    "catalog": "catalog/meddb.sqlite",
+    "templates": "templates",
+    "exports": "exports",
+    "audit": "audit/audit.jsonl"
+  },
+  "codex": {
+    "config": "~/.codex/config.toml",
+    "no_mcp_profile": "~/.codex/no-mcp.config.toml",
+    "plugin_cache": "~/.codex/cache"
+  }
+}

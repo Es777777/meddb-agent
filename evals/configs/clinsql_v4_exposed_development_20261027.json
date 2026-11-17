@@ -1,0 +1,13 @@
+{
+  "purpose": "already_exposed_development_regression",
+  "evaluation_claim": "Development regression after retrospective analysis; not held-out benchmark improvement",
+  "already_exposed_ids": [
+    "validation/Patient_Demographics_and_Admissions/easy/043",
+    "validation/Medication_Management/easy/010",
+    "validation/Disease_Diagnosis_and_Outcomes/easy/002",
+    "validation/Laboratory_Results_Analysis/easy/004"
+  ],
+  "changes": ["explicit age/statistics profile", "medication ingredient registry", "concept-routed ranked dictionary candidates"],
+  "reference_result_tolerance_changed": false,
+  "heldout_remaining18_used": false
+}

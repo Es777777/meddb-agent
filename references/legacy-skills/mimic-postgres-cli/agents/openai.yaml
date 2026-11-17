@@ -1,0 +1,4 @@
+interface:
+  display_name: "MIMIC PostgreSQL CLI"
+  short_description: "Query MIMIC safely through the local MedDB CLI"
+  default_prompt: "Use $mimic-postgres-cli to answer a MIMIC question through the read-only MedDB CLI."

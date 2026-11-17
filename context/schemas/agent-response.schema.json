@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SEER benchmark agent response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_id", "status", "answer", "final_sql", "result", "report_markdown", "metadata_evidence", "skill_evidence", "psql_commands_redacted", "checks"],
+  "properties": {
+    "task_id": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["answerable", "AMBIGUOUS", "NOT_FOUND", "NOT_REPRODUCIBLE", "SOURCE_COVERAGE_MISMATCH", "SQL_ERROR", "SAFETY_BLOCK"]},
+    "answer": {"type": "string"},
+    "final_sql": {"type": "string"},
+    "result": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {"type":"object","additionalProperties":false,"required":["schema_name","tumors_table","tumor_key","patient_key","diagnosis_year_column"],"properties":{"schema_name":{"type":"string"},"tumors_table":{"type":"string"},"tumor_key":{"type":"string"},"patient_key":{"type":"string"},"diagnosis_year_column":{"type":"string"}}},
+          {"type":"object","additionalProperties":false,"required":["imported_rows","diagnosis_year_min","diagnosis_year_max","tumor_key","patient_key","diagnosis_year_column"],"properties":{"imported_rows":{"type":"integer"},"diagnosis_year_min":{"type":"integer"},"diagnosis_year_max":{"type":"integer"},"tumor_key":{"type":"string"},"patient_key":{"type":"string"},"diagnosis_year_column":{"type":"string"}}},
+          {"type":"object","additionalProperties":false,"required":["tumors_pk","tumor_site_pk","tumor_histology_pk","tumor_site_fk","tumor_histology_fk"],"properties":{"tumors_pk":{"type":"string"},"tumor_site_pk":{"type":"string"},"tumor_histology_pk":{"type":"string"},"tumor_site_fk":{"type":"string"},"tumor_histology_fk":{"type":"string"}}},
+          {"type":"object","additionalProperties":false,"required":["diagnosis_year","n_tumors","n_patients"],"properties":{"diagnosis_year":{"type":"string"},"n_tumors":{"type":"integer"},"n_patients":{"type":"integer"}}},
+          {"type":"object","additionalProperties":false,"required":["sex","n_tumors","n_patients"],"properties":{"sex":{"type":"string"},"n_tumors":{"type":"integer"},"n_patients":{"type":"integer"}}},
+          {"type":"object","additionalProperties":false,"required":["n_rows","n_tumors","n_patients"],"properties":{"n_rows":{"type":"integer"},"n_tumors":{"type":"integer"},"n_patients":{"type":"integer"}}},
+          {"type":"object","additionalProperties":false,"required":["behavior","n_tumors"],"properties":{"behavior":{"type":"string"},"n_tumors":{"type":"integer"}}},
+          {"type":"object","additionalProperties":false,"required":["n_rows","n_tumors","n_patients","cardinality_violation_n"],"properties":{"n_rows":{"type":"integer"},"n_tumors":{"type":"integer"},"n_patients":{"type":"integer"},"cardinality_violation_n":{"type":"integer"}}},
+          {"type":"object","additionalProperties":false,"required":["stage","n_tumors","n_patients"],"properties":{"stage":{"type":"string"},"n_tumors":{"type":"integer"},"n_patients":{"type":"integer"}}},
+          {"type":"object","additionalProperties":false,"required":["stage","n_tumors"],"properties":{"stage":{"type":"string"},"n_tumors":{"type":"integer"}}},
+          {"type":"object","additionalProperties":false,"required":["candidate_tumors","complete_mets_tumors","complete_mets_patients"],"properties":{"candidate_tumors":{"type":"integer"},"complete_mets_tumors":{"type":"integer"},"complete_mets_patients":{"type":"integer"}}},
+          {"type":"object","additionalProperties":false,"required":["diagnosis_year","candidate_tumors","complete_mets_tumors","complete_mets_patients"],"properties":{"diagnosis_year":{"type":"string"},"candidate_tumors":{"type":"integer"},"complete_mets_tumors":{"type":"integer"},"complete_mets_patients":{"type":"integer"}}},
+          {"type":"object","additionalProperties":false,"required":["survival_flag","n_tumors","valid_survival_months_n"],"properties":{"survival_flag":{"type":"string"},"n_tumors":{"type":"integer"},"valid_survival_months_n":{"type":"integer"}}}
+          ,{"type":"object","additionalProperties":false,"required":["local_registry_set","requested_registry_set","strict_equality_supported"],"properties":{"local_registry_set":{"type":"string"},"requested_registry_set":{"type":"string"},"strict_equality_supported":{"type":"boolean"}}}
+          ,{"type":"object","additionalProperties":false,"required":["radiation_recode","n_tumors"],"properties":{"radiation_recode":{"type":"string"},"n_tumors":{"type":"integer"}}}
+        ]
+      }
+    },
+    "report_markdown": {"type": "string"},
+    "metadata_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source", "finding"],
+        "properties": {"source": {"type": "string"}, "finding": {"type": "string"}}
+      }
+    },
+    "skill_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["read_paths"],
+      "properties": {
+        "read_paths": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "psql_commands_redacted": {"type": "array", "items": {"type": "string"}},
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["read_only", "repeatable_read", "metadata_checked", "invariants_passed"],
+      "properties": {
+        "read_only": {"type": "boolean"},
+        "repeatable_read": {"type": "boolean"},
+        "metadata_checked": {"type": "boolean"},
+        "invariants_passed": {"type": "boolean"}
+      }
+    }
+  }
+}

@@ -1,0 +1,346 @@
+{
+  "templates": [
+    {
+      "id": "seer-case-trend",
+      "title_cn": "SEER病例数年度趋势",
+      "description_cn": "按诊断年份统计病例数和去重患者数，可选种族筛选。",
+      "datasets": ["seer8", "seer12", "seer17"],
+      "sql_file": "seer-case-trend.sql",
+      "detail": false,
+      "notes": [
+        "结果是登记病例数量，不是人口发病率。",
+        "计算发病率还需要相同年份、地区、年龄和种族口径的人口分母。"
+      ],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true},
+        {"name": "start_year", "type": "int", "required": true},
+        {"name": "end_year", "type": "int", "required": true},
+        {"name": "race", "type": "str", "required": false, "default": null}
+      ],
+      "dataset_identifiers": {
+        "seer8": {
+          "year_column": "diagnosis_year",
+          "race_column": "race_3cat"
+        },
+        "seer12": {
+          "year_column": "year_of_diagnosis",
+          "race_column": "race_white_black_other"
+        },
+        "seer17": {
+          "year_column": "year_of_diagnosis",
+          "race_column": "race_w_b_ai_api"
+        }
+      }
+    },
+    {
+      "id": "seer-site-distribution",
+      "title_cn": "SEER肿瘤部位分布",
+      "description_cn": "按SEER 2008部位重编码统计病例构成，可选年份和种族。",
+      "datasets": ["seer8", "seer12", "seer17"],
+      "sql_file": "seer-site-distribution.sql",
+      "detail": false,
+      "notes": ["构成比例的分母是当前筛选后的病例，不是普通人口。"],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true},
+        {"name": "start_year", "type": "int", "required": true},
+        {"name": "end_year", "type": "int", "required": true},
+        {"name": "race", "type": "str", "required": false, "default": null}
+      ],
+      "dataset_identifiers": {
+        "seer8": {
+          "year_column": "diagnosis_year",
+          "race_column": "race_3cat",
+          "site_table": "tumor_pathology",
+          "site_column": "site_recode_2008"
+        },
+        "seer12": {
+          "year_column": "year_of_diagnosis",
+          "race_column": "race_white_black_other",
+          "site_table": "tumor_site",
+          "site_column": "site_recode_2008"
+        },
+        "seer17": {
+          "year_column": "year_of_diagnosis",
+          "race_column": "race_w_b_ai_api",
+          "site_table": "tumor_site",
+          "site_column": "site_recode_2008"
+        }
+      }
+    },
+    {
+      "id": "seer-stage-distribution",
+      "title_cn": "SEER Summary Stage分布",
+      "description_cn": "按诊断年份范围统计Combined Summary Stage 2004分布。",
+      "datasets": ["seer8", "seer12", "seer17"],
+      "sql_file": "seer-stage-distribution.sql",
+      "detail": false,
+      "notes": [
+        "不同分期体系和适用年份不能直接混用。",
+        "本模板只使用combined_summary_stage_2004字段。"
+      ],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true},
+        {"name": "start_year", "type": "int", "required": true},
+        {"name": "end_year", "type": "int", "required": true}
+      ],
+      "dataset_identifiers": {
+        "seer8": {"year_column": "diagnosis_year"},
+        "seer12": {"year_column": "year_of_diagnosis"},
+        "seer17": {"year_column": "year_of_diagnosis"}
+      }
+    },
+    {
+      "id": "seer-survival-summary",
+      "title_cn": "SEER生存月数描述",
+      "description_cn": "按诊断年份汇总有效生存月数和生命状态。",
+      "datasets": ["seer8", "seer12", "seer17"],
+      "sql_file": "seer-survival-summary.sql",
+      "detail": false,
+      "notes": [
+        "这是描述性生存汇总，不替代Kaplan-Meier或竞争风险模型。",
+        "无效或非数字生存月数不会进入均值。"
+      ],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true},
+        {"name": "start_year", "type": "int", "required": true},
+        {"name": "end_year", "type": "int", "required": true}
+      ],
+      "dataset_identifiers": {
+        "seer8": {
+          "year_column": "diagnosis_year",
+          "outcomes_table": "outcomes",
+          "vital_column": "vital_status"
+        },
+        "seer12": {
+          "year_column": "year_of_diagnosis",
+          "outcomes_table": "outcomes",
+          "vital_column": "vital_status_recode"
+        },
+        "seer17": {
+          "year_column": "year_of_diagnosis",
+          "outcomes_table": "outcomes_survival",
+          "vital_column": "vital_status_recode"
+        }
+      }
+    },
+    {
+      "id": "brfss-sample-counts",
+      "title_cn": "BRFSS年度与州样本数",
+      "description_cn": "统计各年度、各州实际调查响应记录数量。",
+      "datasets": ["brfss"],
+      "sql_file": "brfss-sample-counts.sql",
+      "detail": false,
+      "notes": ["这是样本数，不是州人口数或患病率。"],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true},
+        {"name": "start_year", "type": "int", "required": true},
+        {"name": "end_year", "type": "int", "required": true},
+        {"name": "state_code", "type": "str", "required": false, "default": null}
+      ],
+      "dataset_identifiers": {"brfss": {}}
+    },
+    {
+      "id": "brfss-weighted-distribution",
+      "title_cn": "BRFSS指定变量加权分布",
+      "description_cn": "使用明确指定的调查权重计算某主题变量的加权构成。",
+      "datasets": ["brfss"],
+      "sql_file": "brfss-weighted-distribution.sql",
+      "detail": false,
+      "notes": [
+        "必须选择与目标年份相匹配的官方权重字段。",
+        "该模板只计算加权分布，不自动处理复杂抽样方差和置信区间。"
+      ],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true},
+        {
+          "name": "topic_table",
+          "type": "str",
+          "required": true,
+          "identifier_kind": "table",
+          "schema": "brfss",
+          "choices": [
+            "alcohol",
+            "cancer_screening",
+            "chronic_conditions",
+            "demographics",
+            "diet_nutrition",
+            "health_status",
+            "healthcare_access",
+            "immunization",
+            "mental_health",
+            "physical_activity",
+            "tobacco"
+          ]
+        },
+        {
+          "name": "variable_column",
+          "type": "str",
+          "required": true,
+          "identifier_kind": "column",
+          "schema": "brfss",
+          "table_param": "topic_table",
+          "denied": ["id", "survey_year", "source_row_number", "source_file"]
+        },
+        {
+          "name": "weight_column",
+          "type": "str",
+          "required": true,
+          "identifier_kind": "column",
+          "schema": "brfss",
+          "table": "survey_design",
+          "choices": [
+            "llcp_weight",
+            "final_weight",
+            "raking_weight",
+            "poststratification_weight",
+            "cell_llcp_weight",
+            "stratum_weight"
+          ]
+        },
+        {"name": "start_year", "type": "int", "required": true},
+        {"name": "end_year", "type": "int", "required": true}
+      ],
+      "dataset_identifiers": {"brfss": {}}
+    },
+    {
+      "id": "brfss-cross-tab",
+      "title_cn": "BRFSS两个变量交叉分布",
+      "description_cn": "按id连接两个主题表，统计两个变量组合的样本数。",
+      "datasets": ["brfss"],
+      "sql_file": "brfss-cross-tab.sql",
+      "detail": false,
+      "notes": [
+        "交叉分布只能说明样本中的统计关联，不能直接证明病因或因果关系。",
+        "该模板未应用调查权重。正式人群推断应另行使用匹配年份的设计变量。"
+      ],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true},
+        {
+          "name": "table_a",
+          "type": "str",
+          "required": true,
+          "identifier_kind": "table",
+          "schema": "brfss",
+          "choices": [
+            "alcohol",
+            "chronic_conditions",
+            "demographics",
+            "health_status",
+            "mental_health",
+            "physical_activity",
+            "tobacco"
+          ]
+        },
+        {
+          "name": "column_a",
+          "type": "str",
+          "required": true,
+          "identifier_kind": "column",
+          "schema": "brfss",
+          "table_param": "table_a",
+          "denied": ["id", "survey_year", "source_row_number", "source_file"]
+        },
+        {
+          "name": "table_b",
+          "type": "str",
+          "required": true,
+          "identifier_kind": "table",
+          "schema": "brfss",
+          "choices": [
+            "alcohol",
+            "chronic_conditions",
+            "demographics",
+            "health_status",
+            "mental_health",
+            "physical_activity",
+            "tobacco"
+          ]
+        },
+        {
+          "name": "column_b",
+          "type": "str",
+          "required": true,
+          "identifier_kind": "column",
+          "schema": "brfss",
+          "table_param": "table_b",
+          "denied": ["id", "survey_year", "source_row_number", "source_file"]
+        },
+        {"name": "start_year", "type": "int", "required": true},
+        {"name": "end_year", "type": "int", "required": true}
+      ],
+      "dataset_identifiers": {"brfss": {}}
+    },
+    {
+      "id": "nhanes-participant-counts",
+      "title_cn": "NHANES各周期参与者数量",
+      "description_cn": "按调查周期、性别和种族重编码统计参与者样本数。",
+      "datasets": ["nhanes"],
+      "sql_file": "nhanes-participant-counts.sql",
+      "detail": false,
+      "notes": ["这是样本数，未使用调查权重，不能解释为美国全国人口比例。"],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true}
+      ],
+      "dataset_identifiers": {"nhanes": {}}
+    },
+    {
+      "id": "nhanes-demographic-distribution",
+      "title_cn": "NHANES人口学变量样本分布",
+      "description_cn": "按周期统计participants表中指定人口学变量的样本分布。",
+      "datasets": ["nhanes"],
+      "sql_file": "nhanes-demographic-distribution.sql",
+      "detail": false,
+      "notes": ["未使用调查权重，因此只描述当前样本。"],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true},
+        {
+          "name": "demographic_column",
+          "type": "str",
+          "required": true,
+          "identifier_kind": "column",
+          "schema": "nhanes",
+          "table": "participants",
+          "choices": [
+            "riagendr",
+            "ridageyr",
+            "ridreth1",
+            "ridreth2",
+            "ridreth3",
+            "ridstatr",
+            "ridexmon",
+            "dmdborn4"
+          ]
+        }
+      ],
+      "dataset_identifiers": {"nhanes": {}}
+    },
+    {
+      "id": "nhanes-component-inventory",
+      "title_cn": "NHANES组件清单",
+      "description_cn": "按主题域汇总组件家族和原始文件数量。",
+      "datasets": ["nhanes"],
+      "sql_file": "nhanes-component-inventory.sql",
+      "detail": false,
+      "notes": ["该模板只读取元数据，不读取参与者记录。"],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true}
+      ],
+      "dataset_identifiers": {"nhanes": {}}
+    },
+    {
+      "id": "nhanes-variable-search",
+      "title_cn": "NHANES变量字典搜索",
+      "description_cn": "按字段名、中英文标签搜索变量字典。",
+      "datasets": ["nhanes"],
+      "sql_file": "nhanes-variable-search.sql",
+      "detail": true,
+      "notes": ["该模板只读取变量字典，不读取参与者记录。"],
+      "parameters": [
+        {"name": "dataset", "type": "str", "required": true},
+        {"name": "search_text", "type": "str", "required": true}
+      ],
+      "dataset_identifiers": {"nhanes": {}}
+    }
+  ]
+}
+

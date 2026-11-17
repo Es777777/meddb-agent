@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "sql", "params_json", "tables", "rationale"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["sql", "abstain", "error"]
+    },
+    "sql": {
+      "type": "string"
+    },
+    "params_json": {
+      "type": "string"
+    },
+    "tables": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "rationale": {
+      "type": "string"
+    }
+  }
+}

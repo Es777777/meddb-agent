@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "meddb-local"
+version = "0.1.0"
+description = "Local read-only CLI for the med_research PostgreSQL database"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+  "psycopg[binary]>=3.2,<4",
+  "sqlglot>=27,<40",
+  "tomli>=2,<3",
+]
+
+[project.optional-dependencies]
+research = [
+  "numpy>=1.24,<3", "pandas>=2,<3", "scipy>=1.10,<2",
+  "statsmodels>=0.14,<0.15", "lifelines>=0.30,<0.31",
+  "scikit-learn>=1.3,<2", "matplotlib>=3.7,<4", "jsonschema>=4.18,<5",
+]
+
+[project.scripts]
+meddb = "meddb.cli:main"
+medresearch = "medresearch.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

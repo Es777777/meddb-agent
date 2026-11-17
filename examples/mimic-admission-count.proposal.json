@@ -1,0 +1,25 @@
+{
+  "status": "ready",
+  "spec": {
+    "task_id": "mimic-admission-count-example",
+    "question": "Count admission records in the installed MIMIC-IV database.",
+    "dataset": "mimiciv",
+    "dataset_version": "3.1",
+    "analysis_unit": "admission",
+    "objective": "descriptive",
+    "cohort": "All admission records in mimiciv_hosp.admissions",
+    "exposure": "not applicable",
+    "outcome": "not applicable",
+    "index_event": "admission record",
+    "time_window": "all available admissions in the installed release",
+    "denominator": "all admission records; no population inference",
+    "statistic": "COUNT(*)",
+    "covariates": [],
+    "output_columns": ["n_admissions"],
+    "assumptions": ["One admissions row corresponds to one hospital admission"],
+    "definition_sources": ["MIMIC-IV admissions schema"]
+  },
+  "sql": "SELECT COUNT(*) AS n_admissions FROM mimiciv_hosp.admissions",
+  "params_json": "{}",
+  "limitations": ["Illustrative proposal, not a benchmark prediction", "Installed data release must be independently verified"]
+}

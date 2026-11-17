@@ -1,0 +1,27 @@
+{
+  "schema_version": 2,
+  "study_id": "seer-survival-template",
+  "question": "Describe overall survival in a prespecified SEER tumor cohort.",
+  "dataset": {"name": "seer17", "version": "REPLACE_WITH_ACTUAL_RELEASE_AND_REGISTRY_SET"},
+  "analysis_unit": "tumor",
+  "population": "sample",
+  "design": {
+    "index_event": "Tumor diagnosis in the prespecified cohort",
+    "time_window": "REPLACE_WITH_DIAGNOSIS_YEARS",
+    "denominator": "Eligible registered tumors, not unique patients",
+    "exposure_window": "Not applicable to unstratified survival description",
+    "followup": "Native valid survival months and documented last follow-up",
+    "censoring": "Right censoring; event and follow-up rules must be checked against release",
+    "estimand": "Overall survival probability in the selected registered-tumor cohort"
+  },
+  "data": {"kind": "file", "path": "../data/seer-analysis.csv"},
+  "cohort": [],
+  "analysis": {"method": "kaplan_meier", "duration": "survival_months", "event": "death_event", "confidence": 0.95, "missing": "complete_case", "seed": 2026},
+  "quality": {"keys": ["tumor_id"], "min_rows": 30, "max_missing": 0.1, "ranges": {"survival_months": [0, 2000]}, "allowed_values": {"death_event": [0, 1]}},
+  "definitions": [
+    {"column": "survival_months", "concept": "Follow-up duration", "unit": "months", "operational_definition": "Native survival months after applying release-specific validity flags; replace with exact rule", "source_id": "seer-documentation", "reviewed": false, "availability": "post_index"},
+    {"column": "death_event", "concept": "All-cause death", "unit": "binary 0/1", "operational_definition": "1=death from any cause, 0=right censored; replace with exact source labels and mapping", "source_id": "seer-documentation", "reviewed": false, "availability": "post_index"}
+  ],
+  "evidence": [{"id": "seer-documentation", "title": "SEER release-specific documentation must be supplied and reviewed", "url": "https://seer.cancer.gov/", "verification": "unverified"}],
+  "sensitivity": []
+}

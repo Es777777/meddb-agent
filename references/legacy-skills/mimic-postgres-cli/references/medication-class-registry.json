@@ -1,0 +1,16 @@
+{
+  "version": "development-v4-20261027",
+  "scope": "Operational medication-name discovery; not a clinical phenotype or complete terminology",
+  "provenance": "Reviewed development error analysis; no result values, task-specific SQL or cohort constants",
+  "classes": [
+    {
+      "concept": "nitrate",
+      "aliases": ["nitrate", "nitrates", "nitroglycerin", "isosorbide"],
+      "table": "mimiciv_hosp.prescriptions",
+      "field": "drug",
+      "ingredient_patterns": ["%nitroglycerin%", "%isosorbide%"],
+      "matching": "case-insensitive OR across ingredient-name families",
+      "limitations": "Local development name mapping; validate terminology and administration source for clinical use"
+    }
+  ]
+}

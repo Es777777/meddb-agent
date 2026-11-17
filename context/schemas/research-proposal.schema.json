@@ -1,0 +1,143 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "spec",
+    "sql",
+    "params_json",
+    "limitations"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "needs_clarification",
+        "unsupported"
+      ]
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "question",
+        "dataset",
+        "dataset_version",
+        "analysis_unit",
+        "objective",
+        "cohort",
+        "exposure",
+        "outcome",
+        "index_event",
+        "time_window",
+        "denominator",
+        "statistic",
+        "covariates",
+        "output_columns",
+        "assumptions",
+        "definition_sources"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dataset": {
+          "type": "string",
+          "enum": [
+            "mimiciv"
+          ]
+        },
+        "dataset_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "analysis_unit": {
+          "type": "string",
+          "enum": [
+            "patient",
+            "admission",
+            "icu_stay",
+            "event"
+          ]
+        },
+        "objective": {
+          "type": "string",
+          "enum": [
+            "descriptive"
+          ]
+        },
+        "cohort": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exposure": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outcome": {
+          "type": "string",
+          "minLength": 1
+        },
+        "index_event": {
+          "type": "string",
+          "minLength": 1
+        },
+        "time_window": {
+          "type": "string",
+          "minLength": 1
+        },
+        "denominator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "statistic": {
+          "type": "string",
+          "minLength": 1
+        },
+        "covariates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "output_columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "definition_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sql": {
+      "type": "string"
+    },
+    "params_json": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

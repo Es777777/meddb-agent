@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "sql", "params_json", "tables", "rationale", "plan"],
+  "properties": {
+    "status": {"type": "string", "enum": ["sql", "abstain", "error"]},
+    "sql": {"type": "string"},
+    "params_json": {"type": "string"},
+    "tables": {"type": "array", "items": {"type": "string"}},
+    "rationale": {"type": "string"},
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grain", "age", "cohort", "concept_sources", "index_event", "window", "denominator", "statistic", "output", "assumptions"],
+      "properties": {
+        "grain": {"type": "string"},
+        "age": {"type": "string"},
+        "cohort": {"type": "string"},
+        "concept_sources": {"type": "string"},
+        "index_event": {"type": "string"},
+        "window": {"type": "string"},
+        "denominator": {"type": "string"},
+        "statistic": {"type": "string"},
+        "output": {"type": "string"},
+        "assumptions": {"type": "string"}
+      }
+    }
+  }
+}

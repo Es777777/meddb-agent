@@ -1,0 +1,4 @@
+interface:
+  display_name: "SEER PostgreSQL CLI"
+  short_description: "Native psql workflows for the local SEER database."
+  default_prompt: "Use $seer-postgres-cli to query the local SEER database with native psql."

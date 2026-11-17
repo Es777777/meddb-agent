@@ -1,0 +1,4 @@
+interface:
+  display_name: "MedDB CLI"
+  short_description: "MedDB Codex 查询集成暂时停用"
+  default_prompt: "Use $meddb-cli to explain that MedDB Codex query execution is temporarily disabled pending redesign."
